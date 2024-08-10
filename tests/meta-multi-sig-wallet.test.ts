@@ -9,7 +9,7 @@ import {
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { CloseStream } from "../generated/schema"
 import { CloseStream as CloseStreamEvent } from "../generated/MetaMultiSigWallet/MetaMultiSigWallet"
-import { handleCloseStream } from "../src/meta-multi-sig-wallet"
+import { handleCloseStream } from "../src/mapping"
 import { createCloseStreamEvent } from "./meta-multi-sig-wallet-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
