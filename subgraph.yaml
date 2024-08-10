@@ -3,39 +3,50 @@ indexerHints:
   prune: auto
 schema:
   file: ./schema.graphql
-dataSources:
-  - kind: ethereum
-    name: MetaMultiSigWallet
+  
+templates:
+  - name: TokenTemplate
+    kind: ethereum/contract
     network: sepolia
     source:
-      address: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-      abi: MetaMultiSigWallet
-      startBlock: 0
+      abi: TokenABI
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - CloseStream
-        - Deposit
-        - ExecuteTransaction
-        - OpenStream
-        - Owner
-        - Withdraw
+        - TransferEvent
+        - Account
+        - Token
       abis:
-        - name: MetaMultiSigWallet
-          file: ./abis/MetaMultiSigWallet.json
+        - name: TokenABI
+          file: ./abis/TokenABI.json
       eventHandlers:
-        - event: CloseStream(indexed address)
-          handler: handleCloseStream
-        - event: Deposit(indexed address,uint256,uint256)
-          handler: handleDeposit
-        - event: ExecuteTransaction(indexed address,address,uint256,bytes,uint256,bytes32,bytes)
-          handler: handleExecuteTransaction
-        - event: OpenStream(indexed address,uint256,uint256)
-          handler: handleOpenStream
-        - event: Owner(indexed address,bool)
-          handler: handleOwner
-        - event: Withdraw(indexed address,uint256,string)
-          handler: handleWithdraw
-      file: ./src/meta-multi-sig-wallet.ts
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransferFromTemplate
+      file: ./src/mapping.ts
+
+dataSources:
+  - kind: ethereum
+    name: USDT
+    network: sepolia
+    source:
+      address: "0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0"
+      # template: TokenTemplate
+      abi: TokenABI
+      startBlock: 6473459
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TransferEvent
+        - Account
+        - Token
+      abis:
+        - name: TokenABI
+          file: ./abis/TokenABI.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

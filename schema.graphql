@@ -1,60 +1,40 @@
-type CloseStream @entity(immutable: true) {
-  id: Bytes!
-  to: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+# Define Enums
+enum TransferType {
+  STANDARD
+  PRIORITY
 }
 
-type Deposit @entity(immutable: true) {
-  id: Bytes!
-  sender: Bytes! # address
-  amount: BigInt! # uint256
-  balance: BigInt! # uint256
+# Define Interfaces
+interface Metadata {
+  id: ID!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
-  transactionHash: Bytes!
 }
 
-type ExecuteTransaction @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  to: Bytes! # address
-  value: BigInt! # uint256
-  data: Bytes! # bytes
-  nonce: BigInt! # uint256
-  hash: Bytes! # bytes32
-  result: Bytes! # bytes
+# Define Types
+type TransferEvent implements Metadata @entity {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
+  transferType: TransferType!  # Enum field
 }
 
-type OpenStream @entity(immutable: true) {
-  id: Bytes!
-  to: Bytes! # address
-  amount: BigInt! # uint256
-  frequency: BigInt! # uint256
+type Account implements Metadata @entity {
+  id: ID!
+  balance: BigInt!
+  totalTransferred: BigInt!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
-  transactionHash: Bytes!
 }
 
-type Owner @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  added: Boolean! # bool
+type Token implements Metadata @entity {
+  id: ID!
+  symbol: String!
+  totalSupply: BigInt!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Withdraw @entity(immutable: true) {
-  id: Bytes!
-  to: Bytes! # address
-  amount: BigInt! # uint256
-  reason: String! # string
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
 }
