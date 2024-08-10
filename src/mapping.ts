@@ -1,7 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { Transfer } from "../generated/MetaMultiSigWallet/MetaMultiSigWallet";
 import { TransferEvent, Account } from "../generated/schema";
-import { TokenTemplate } from "../generated/templates";
+// import { TokenTemplate } from "../generated/templates";
 import { Address } from "@graphprotocol/graph-ts";
 
 export function handleTransfer(event: Transfer): void {
@@ -24,10 +24,7 @@ export function handleTransfer(event: Transfer): void {
   transferEvent.transferType = "STANDARD"; 
   if (transferEvent.from && transferEvent.to && transferEvent.value) {
     transferEvent.save();
-  } else {
-    // Log or handle the error case where required fields are missing
-    
-  }
+  } 
 
   let fromAccount = getOrCreateAccount(event.params.from.toHex());
   fromAccount.balance = fromAccount.balance.minus(event.params.value);
@@ -39,7 +36,7 @@ export function handleTransfer(event: Transfer): void {
   toAccount.save();
 
   let toAddress = Address.fromString(event.params.to.toHex());
-  TokenTemplate.create(toAddress);
+  // TokenTemplate.create(toAddress);
   
 }
 

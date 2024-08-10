@@ -4,27 +4,27 @@ indexerHints:
 schema:
   file: ./schema.graphql
   
-templates:
-  - name: TokenTemplate
-    kind: ethereum/contract
-    network: sepolia
-    source:
-      abi: TokenABI
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TransferEvent
-        - Account
-        - Token
-      abis:
-        - name: TokenABI
-          file: ./abis/TokenABI.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransferFromTemplate
-      file: ./src/mapping.ts
+# templates:
+#   - name: TokenTemplate
+#     kind: ethereum/contract
+#     network: sepolia
+#     source:
+#       abi: TokenABI
+#     mapping:
+#       kind: ethereum/events
+#       apiVersion: 0.0.7
+#       language: wasm/assemblyscript
+#       entities:
+#         - TransferEvent
+#         - Account
+#         - Token
+#       abis:
+#         - name: TokenABI
+#           file: ./abis/TokenABI.json
+#       eventHandlers:
+#         - event: Transfer(indexed address,indexed address,uint256)
+#           handler: handleTransferFromTemplate
+#       file: ./src/mapping.ts
 
 dataSources:
   - kind: ethereum
