@@ -6,7 +6,6 @@ import { Address } from "@graphprotocol/graph-ts";
 
 export function handleTransfer(event: Transfer): void {
   let transferEvent = new TransferEvent(event.transaction.hash.toHex());
-<<<<<<< HEAD
 
   // Assert that required fields are not null
   assert(event.params.from !== null, "Error: 'from' address is null");
@@ -16,8 +15,6 @@ export function handleTransfer(event: Transfer): void {
   assert(event.block.number !== null, "Error: 'blockNumber' is null");
   assert(event.block.timestamp !== null, "Error: 'blockTimestamp' is null");
 
-=======
->>>>>>> 1b2ffcaf993196d9f588173041802ef310c6b3eb
   transferEvent.from = event.params.from;
   transferEvent.to = event.params.to;
   transferEvent.value = event.params.value;
@@ -25,16 +22,12 @@ export function handleTransfer(event: Transfer): void {
   transferEvent.blockTimestamp = event.block.timestamp;
   transferEvent.transactionHash = event.transaction.hash;
   transferEvent.transferType = "STANDARD"; 
-<<<<<<< HEAD
   if (transferEvent.from && transferEvent.to && transferEvent.value) {
     transferEvent.save();
   } else {
     // Log or handle the error case where required fields are missing
     
   }
-=======
-  transferEvent.save();
->>>>>>> 1b2ffcaf993196d9f588173041802ef310c6b3eb
 
   let fromAccount = getOrCreateAccount(event.params.from.toHex());
   fromAccount.balance = fromAccount.balance.minus(event.params.value);
@@ -52,7 +45,6 @@ export function handleTransfer(event: Transfer): void {
 
 function getOrCreateAccount(id: string): Account {
   let account = Account.load(id);
-<<<<<<< HEAD
   
   if (account == null) {
     // Creating a new account if it doesn't exist
@@ -69,11 +61,5 @@ function getOrCreateAccount(id: string): Account {
 
   return account;
 }
-=======
-  if (account == null) {
-    account = new Account(id);
-    account.balance = BigInt.fromI32(0);
-  }
-  return account;
-}
->>>>>>> 1b2ffcaf993196d9f588173041802ef310c6b3eb
+
+
